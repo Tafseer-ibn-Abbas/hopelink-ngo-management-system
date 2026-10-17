@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Campaigns — HopeLink{% endblock %}
+{% block content %}
+<main class="page-shell container">
+  <div class="page-hero page-hero-wide"><div><span class="eyebrow">Projects & initiatives</span><h1>Progress you can see<span class="heading-period">.</span></h1><p>Follow community programs and their funding milestones from one clear view.</p></div><a href="{{ url_for('donate') }}" class="button button-primary">Explore pledges ↗</a></div>
+  <div class="section-caption"><span>CAMPAIGN OVERVIEW</span><span>{{ projects|length }} initiatives</span></div>
+  <div class="campaign-grid">
+    {% for project in projects %}
+    <article class="campaign-card">
+      <div class="campaign-card-head"><span class="campaign-mark" aria-hidden="true">✳</span><span class="status-pill {% if project.status == 'ACTIVE TRACK' %}status-active{% else %}status-closed{% endif %}">{% if project.status == 'ACTIVE TRACK' %}Active{% else %}Completed{% endif %}</span></div>
+      <h2>{{ project.title }}</h2><p>{{ project.description|replace('Demo initiative ', '') }}</p>
+      <div class="campaign-progress"><div class="progress-label"><span>Funding progress</span><strong>{{ '%.0f'|format(project.percentage) }}%</strong></div><div class="progress-track" role="progressbar" aria-label="Funding progress" aria-valuenow="{{ project.percentage|round|int }}" aria-valuemin="0" aria-valuemax="100"><span style="width:{{ project.percentage }}%"></span></div><div class="progress-amount"><span>${{ '{:,.0f}'.format(project.current_amount) }} raised</span><span>${{ '{:,.0f}'.format(project.target_amount) }} goal</span></div></div>
+    </article>
+    {% else %}
+    <div class="empty-state">No campaigns to display yet.</div>
+    {% endfor %}
+  </div>
+  {% if session.get('logged_in') %}
+  <section class="form-card embedded-form" aria-labelledby="add-campaign-title">
+    <span class="card-kicker">ADMINISTRATION</span><h2 id="add-campaign-title">Create a campaign</h2><p class="card-intro">Add a new initiative to the workspace.</p>
+    <form action="{{ url_for('add_project') }}" method="post"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+      <div class="form-row"><div class="form-group"><label for="p_title">Campaign title</label><input id="p_title" name="p_title" type="text" maxlength="120" required placeholder="Community learning program"></div><div class="form-group"><label for="p_status">Status</label><select id="p_status" name="p_status" required><option value="ACTIVE TRACK">Active</option><option value="CLOSED/ARCHIVED">Completed / archived</option></select></div></div>
+      <div class="form-group"><label for="p_desc">Description</label><textarea id="p_desc" name="p_desc" rows="3" maxlength="500" required placeholder="What is the campaign working towards?"></textarea></div>
+      <div class="form-row"><div class="form-group"><label for="p_target">Funding target (USD)</label><input id="p_target" name="p_target" type="number" min="1" max="1000000" step="0.01" required placeholder="15000"></div><div class="form-group"><label for="p_current">Starting amount (USD)</label><input id="p_current" name="p_current" type="number" min="0" max="1000000" step="0.01" value="0"></div></div>
+      <button class="button button-primary" type="submit" {% if read_only %}disabled{% endif %}>Add campaign ↗</button>
+    </form>
+  </section>
+  {% endif %}
+</main>
+{% endblock %}

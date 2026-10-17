@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}HopeLink — Manage impact with clarity{% endblock %}
+{% block content %}
+<main id="main-content">
+  <section class="hero container">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="eyebrow-mark"></span> Nonprofit operations, simplified</span>
+      <h1>More impact.<br><em>Less admin.</em></h1>
+      <p class="hero-lead">A thoughtful workspace for managing community initiatives, coordinating volunteers and keeping resources organized.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="{{ url_for('projects') }}">Explore campaigns <span aria-hidden="true">↗</span></a>
+        <a class="button button-ghost" href="{{ url_for('admin') }}">Open workspace <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-proof"><span class="proof-dot"></span> Built as a functional portfolio application with sample data</div>
+    </div>
+    <div class="hero-visual" aria-label="HopeLink sample operations overview">
+      <div class="visual-orb visual-orb-one"></div><div class="visual-orb visual-orb-two"></div>
+      <div class="visual-panel">
+        <div class="visual-top"><span><span class="mini-mark">✳</span> Operations overview</span><span class="mini-tag">Overview</span></div>
+        <p class="mini-label">Community at a glance</p>
+        <div class="mini-total">${{ '{:,.0f}'.format(total_funds) }}<span> recorded pledges</span></div>
+        <div class="visual-divider"></div>
+        <div class="mini-rows">
+          <div class="mini-row"><span class="mini-icon green">◎</span><span>Volunteer registrations</span><strong>{{ total_volunteers }}</strong></div>
+          <div class="mini-row"><span class="mini-icon gold">✦</span><span>Completed campaigns</span><strong>{{ completed_projects }}</strong></div>
+          <div class="mini-row"><span class="mini-icon blue">✓</span><span>Organized in one place</span><strong>100%</strong></div>
+        </div>
+        <div class="visual-foot"><span class="pulse"></span> Sample workspace data</div>
+      </div>
+      <div class="floating-sticker"><span class="sticker-icon">✳</span><span>One connected<br><strong>workspace</strong></span></div>
+    </div>
+  </section>
+  <section class="section section-quiet">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">A clearer perspective</span><h2>Everything in its place.</h2></div><p>One organized view of the work that matters, from the first pledge to the final delivery.</p></div>
+      <div class="feature-grid">
+        <a class="feature-card" href="{{ url_for('projects') }}"><span class="feature-icon feature-icon-mint">◈</span><span class="feature-number">01 / INITIATIVES</span><h3>Campaign management</h3><p>Keep funding goals, progress and campaign status visible in one workspace.</p><span class="feature-link">View campaigns <span>↗</span></span></a>
+        <a class="feature-card" href="{{ url_for('volunteer') }}"><span class="feature-icon feature-icon-sky">♧</span><span class="feature-number">02 / PEOPLE</span><h3>Volunteer coordination</h3><p>Capture skills, availability and contact details to organize community support.</p><span class="feature-link">Explore registration <span>↗</span></span></a>
+        <a class="feature-card" href="{{ url_for('inventory') }}"><span class="feature-icon feature-icon-sand">▣</span><span class="feature-number">03 / RESOURCES</span><h3>Inventory tracking</h3><p>See supplies and quantities across education, health and relief operations.</p><span class="feature-link">Browse inventory <span>↗</span></span></a>
+      </div>
+    </div>
+  </section>
+  <section class="bottom-cta container">
+    <div><span class="eyebrow eyebrow-inverse">A practical, connected toolkit</span><h2>Good work deserves<br>good systems.</h2></div>
+    <a href="{{ url_for('projects') }}" class="button button-white">Explore the platform <span aria-hidden="true">↗</span></a>
+  </section>
+</main>
+{% endblock %}

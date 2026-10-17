@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Operations dashboard — HopeLink{% endblock %}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a class="wordmark sidebar-logo" href="{{ url_for('index') }}"><span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span>hope<span class="brand-accent">link</span><span class="brand-dot">.</span></span></a>
+    <span class="sidebar-label">WORKSPACE</span>
+    <nav class="admin-links" aria-label="Dashboard navigation"><a href="#overview" class="current"><span>▦</span> Overview</a><a href="#donations"><span>◈</span> Pledge records</a><a href="#volunteers"><span>♧</span> Volunteers</a><a href="{{ url_for('projects') }}"><span>✳</span> Campaigns ↗</a><a href="{{ url_for('inventory') }}"><span>▣</span> Inventory ↗</a></nav>
+    <div class="sidebar-bottom"><a href="{{ url_for('index') }}">← Back to website</a><a href="{{ url_for('logout') }}">Sign out ↗</a></div>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-top"><span class="admin-top-label">HOPELINK / ADMINISTRATION</span><span class="admin-user"><span class="user-avatar">A</span> {{ session['username'] }}</span></div>
+    <section id="overview"><div class="admin-heading"><div><span class="eyebrow">Operations at a glance</span><h1>Welcome back<span class="heading-period">.</span></h1><p>Here's an overview of your recorded pledges and volunteer activity.</p></div><a class="button button-outline" href="{{ url_for('projects') }}">View campaigns ↗</a></div>
+      <div class="admin-stat-grid"><div class="admin-stat"><span>Total pledges</span><strong>{{ donations|length }}</strong><small>Records in workspace</small></div><div class="admin-stat"><span>Volunteer registrations</span><strong>{{ volunteers|length }}</strong><small>People in the directory</small></div><div class="admin-stat"><span>Recorded pledge amount</span><strong>${{ '{:,.0f}'.format(values|sum) }}</strong><small>Simulation only · USD</small></div></div>
+      <div class="admin-chart-panel"><div class="surface-heading"><div><span class="card-kicker">CAMPAIGN ACTIVITY</span><h2>Pledges by campaign</h2></div><span class="surface-meta">Sample figures · USD</span></div>
+        {% set top = (values|max) if values else 0 %}
+        <div class="chart-rows">{% for name in labels %}<div class="chart-row"><div class="chart-row-head"><span>{{ name }}</span><strong>${{ '{:,.0f}'.format(values[loop.index0]) }}</strong></div><div class="chart-rail"><span style="width:{{ (values[loop.index0] / top * 100) if top else 0 }}%"></span></div></div>{% else %}<p class="muted">No pledge records yet.</p>{% endfor %}</div>
+      </div>
+    </section>
+    <section class="admin-table-panel" id="donations"><div class="surface-heading"><div><span class="card-kicker">TRANSACTIONS</span><h2>Pledge records <span class="heading-count">{{ donations|length }}</span></h2></div><span class="surface-meta">Simulated — no funds collected</span></div>
+      <div class="table-scroll" tabindex="0" aria-label="Scrollable pledge records"><table class="data-table"><thead><tr><th>Donor</th><th>Campaign</th><th>Amount</th><th>Reference</th><th>Action</th></tr></thead><tbody>
+        {% for donation in donations %}<tr><td><span class="item-name">{{ donation[1]|replace(' (Demo)', '') }}</span><small>#{{ donation[0] }}</small></td><td>{{ donation[4] }}</td><td class="amount-cell">${{ '{:,.2f}'.format(donation[3]) }}</td><td><code>{{ donation[6] }}</code></td><td><form method="post" action="{{ url_for('delete_donation', id=donation[0]) }}"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}"><button type="submit" class="text-danger" {% if read_only %}disabled{% endif %} aria-label="Remove pledge record {{ donation[0] }}" data-confirm="Remove this simulated pledge record?">Remove</button></form></td></tr>{% else %}<tr><td class="table-empty" colspan="5">No pledge records yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </section>
+    <section class="admin-table-panel" id="volunteers"><div class="surface-heading"><div><span class="card-kicker">PEOPLE</span><h2>Volunteer directory <span class="heading-count">{{ volunteers|length }}</span></h2></div><span class="surface-meta">Sample records</span></div>
+      <div class="table-scroll" tabindex="0" aria-label="Scrollable volunteers table"><table class="data-table"><thead><tr><th>Volunteer</th><th>Contact</th><th>Skill</th><th>Availability</th></tr></thead><tbody>
+        {% for volunteer in volunteers %}<tr><td><span class="item-name">{{ volunteer[1]|replace(' (Demo)', '') }}</span><small>#{{ volunteer[0] }}</small></td><td>{{ volunteer[3] }}<small>{{ volunteer[2] }}</small></td><td>{{ volunteer[4] }}</td><td><span class="category-label">{{ volunteer[5] }}</span></td></tr>{% else %}<tr><td class="table-empty" colspan="4">No volunteer records yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </section>
+    <p class="admin-disclosure">Portfolio application using fictional initial records and a simulated donation workflow. Not a payment processor.</p>
+  </main>
+</div>
+{% endblock %}

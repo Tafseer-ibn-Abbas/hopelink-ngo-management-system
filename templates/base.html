@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c36">
+  <meta name="description" content="HopeLink — a nonprofit operations portfolio application for campaigns, volunteer coordination and inventory management.">
+  <title>{% block title %}HopeLink — Community operations{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+{% block navbar %}
+<header class="site-header">
+  <div class="nav-inner container">
+    <a class="wordmark" href="{{ url_for('index') }}" aria-label="HopeLink home">
+      <span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span>hope<span class="brand-accent">link</span><span class="brand-dot">.</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+      <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>Overview</a>
+      <a href="{{ url_for('projects') }}" {% if request.endpoint == 'projects' %}aria-current="page"{% endif %}>Campaigns</a>
+      <a href="{{ url_for('volunteer') }}" {% if request.endpoint == 'volunteer' %}aria-current="page"{% endif %}>Volunteers</a>
+      <a href="{{ url_for('inventory') }}" {% if request.endpoint == 'inventory' %}aria-current="page"{% endif %}>Inventory</a>
+      <a href="{{ url_for('donate') }}" {% if request.endpoint == 'donate' %}aria-current="page"{% endif %}>Pledges</a>
+      <a href="{{ url_for('admin') }}" class="nav-admin">{% if session.get('logged_in') %}Dashboard{% else %}Admin login{% endif %} <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+{% endblock %}
+{% include '_alerts.html' %}
+{% block content %}{% endblock %}
+{% block footer %}
+<footer class="site-footer">
+  <div class="footer-inner container">
+    <div><div class="footer-brand">hopelink<span>.</span></div><p>Better coordination. Greater possibility.</p></div>
+    <div class="footer-right"><span>Portfolio project · Fictional sample records</span><span>Donation flow is simulated; no payments are collected.</span></div>
+  </div>
+</footer>
+{% endblock %}
+<script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

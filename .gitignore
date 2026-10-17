@@ -1,0 +1,16 @@
+# Virtual environments, caches and local data
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+instance/
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store

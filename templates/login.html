@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Sign in — HopeLink{% endblock %}
+{% block content %}
+<main class="auth-layout container">
+  <div class="auth-intro"><span class="eyebrow">Workspace access</span><h1>Welcome back<span class="heading-period">.</span></h1><p>Access the management workspace to review pledges, volunteer records and campaign activity.</p><div class="auth-graphic"><span>✳</span><strong>Make every effort count.</strong></div></div>
+  <section class="form-card auth-card" aria-labelledby="login-title">
+    <span class="card-kicker">ADMINISTRATION</span><h2 id="login-title">Sign in to HopeLink</h2><p class="card-intro">Use your locally configured administrator credentials.</p>
+    <form action="{{ url_for('login') }}" method="post">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+      <div class="form-group"><label for="username">Username</label><input type="text" id="username" name="username" autocomplete="username" required placeholder="admin"></div>
+      <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password"></div>
+      <button type="submit" class="button button-primary button-full">Sign in <span>→</span></button>
+    </form>
+    <p class="helper-copy">Access is intended for local testing. The public preview does not expose privileged operations.</p>
+  </section>
+</main>
+{% endblock %}

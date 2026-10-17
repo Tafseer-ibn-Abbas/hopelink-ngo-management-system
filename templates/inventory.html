@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Resource inventory — HopeLink{% endblock %}
+{% block content %}
+<main class="page-shell container">
+  <div class="page-hero page-hero-wide"><div><span class="eyebrow">Resources & supplies</span><h1>Ready when it matters<span class="heading-period">.</span></h1><p>Keep the supplies behind every initiative accounted for and easy to find.</p></div><span class="inventory-count"><strong>{{ items|length }}</strong> tracked items</span></div>
+  <div class="inventory-layout {% if not session.get('logged_in') %}inventory-layout-public{% endif %}">
+    <section class="surface-panel"><div class="surface-heading"><div><span class="card-kicker">RESOURCE INVENTORY</span><h2>Stock overview</h2></div><span class="surface-meta">Current quantities</span></div>
+      <div class="table-scroll" tabindex="0" aria-label="Scrollable inventory table"><table class="data-table"><thead><tr><th>Item</th><th>Category</th><th class="numeric">Quantity</th></tr></thead><tbody>
+        {% for item in items %}<tr><td><span class="item-name">{{ item[1] }}</span><small>#HL-{{ '%03d'|format(item[0]) }}</small></td><td><span class="category-label">{{ item[2] }}</span></td><td class="numeric"><strong>{{ item[3] }}</strong> <span class="unit">units</span></td></tr>{% else %}<tr><td colspan="3" class="table-empty">No inventory records yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </section>
+    {% if session.get('logged_in') %}
+    <aside class="form-card compact-card"><span class="card-kicker">ADMINISTRATION</span><h2>Add stock</h2><p class="card-intro">Record a new inventory item.</p>
+      <form action="{{ url_for('add_inventory') }}" method="post"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+        <div class="form-group"><label for="item_name">Item name</label><input id="item_name" name="item_name" maxlength="100" required placeholder="School supply kits"></div>
+        <div class="form-group"><label for="item_category">Category</label><select id="item_category" name="item_category" required><option value="Education">Education</option><option value="Healthcare">Healthcare</option><option value="Disaster Relief">Disaster relief</option><option value="Logistics">Logistics</option></select></div>
+        <div class="form-group"><label for="item_qty">Quantity</label><input id="item_qty" name="item_qty" type="number" min="1" max="100000" required placeholder="100"></div>
+        <button type="submit" class="button button-primary button-full" {% if read_only %}disabled{% endif %}>Add item →</button>
+      </form>
+    </aside>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

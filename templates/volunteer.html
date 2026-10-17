@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Volunteer registration — HopeLink{% endblock %}
+{% block content %}
+<main class="page-shell container">
+  <div class="page-hero"><span class="eyebrow">People & participation</span><h1>Make room for more good<span class="heading-period">.</span></h1><p>A simple way to organize the people, skills and time behind community initiatives.</p></div>
+  <div class="split-layout">
+    <section class="form-card" aria-labelledby="volunteer-title"><span class="card-kicker">VOLUNTEER MANAGEMENT</span><h2 id="volunteer-title">Registration form</h2><p class="card-intro">Use fictional information to explore how volunteer records are captured.</p>
+      <form action="{{ url_for('submit_volunteer') }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+        <div class="form-row"><div class="form-group"><label for="v_name">Full name</label><input id="v_name" name="v_name" type="text" required maxlength="100" placeholder="Jordan Lee"></div><div class="form-group"><label for="v_phone">Contact number</label><input id="v_phone" name="v_phone" type="tel" maxlength="24" required placeholder="03000000000"></div></div>
+        <div class="form-group"><label for="v_email">Email address</label><input id="v_email" name="v_email" type="email" maxlength="150" required placeholder="jordan@example.test"></div>
+        <div class="form-row"><div class="form-group"><label for="v_skill">Primary skill</label><input id="v_skill" name="v_skill" type="text" required maxlength="100" placeholder="Teaching, logistics, healthcare..."></div><div class="form-group"><label for="v_availability">Availability</label><select id="v_availability" name="v_availability" required><option value="Weekends">Weekends</option><option value="Weekdays">Weekdays</option><option value="Full Time">Flexible / on call</option></select></div></div>
+        <div class="form-group"><label for="v_reason">Why volunteer? <span class="optional">(optional)</span></label><textarea id="v_reason" name="v_reason" rows="3" maxlength="500" placeholder="A little about your interests"></textarea></div>
+        <button type="submit" class="button button-primary button-full" {% if read_only %}disabled{% endif %}>Save registration <span>→</span></button>
+        {% if read_only %}<p class="helper-copy">The hosted preview is read-only. Run locally to try submissions.</p>{% endif %}
+      </form>
+    </section>
+    <aside class="aside-panel aside-panel-green"><div class="aside-icon">♧</div><h3>People make<br>progress possible.</h3><p>Keep volunteer contact information, capabilities and schedules organized in a single place.</p><div class="aside-line"></div><div class="aside-points"><div><span>01</span> Capture contact details</div><div><span>02</span> Identify useful skills</div><div><span>03</span> Coordinate availability</div></div></aside>
+  </div>
+</main>
+{% endblock %}

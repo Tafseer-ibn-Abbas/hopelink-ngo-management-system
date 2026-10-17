@@ -1,0 +1,5 @@
+{% with notices = get_flashed_messages(with_categories=true) %}
+  {% if notices %}
+    <div class="alerts-region container" role="status" aria-live="polite">{% for category, message in notices %}<div class="alert alert-{{ category|e }}">{{ message }}</div>{% endfor %}</div>
+  {% endif %}
+{% endwith %}

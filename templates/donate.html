@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Pledge workflow — HopeLink{% endblock %}
+{% block content %}
+<main class="page-shell container">
+  <div class="page-hero"><span class="eyebrow">Funding coordination</span><h1>Support a cause<span class="heading-period">.</span></h1><p>Explore the pledge-tracking workflow used to record contributions against community campaigns.</p></div>
+  <div class="split-layout">
+    <section class="form-card" aria-labelledby="pledge-title">
+      <span class="card-kicker">RECORD A PLEDGE</span><h2 id="pledge-title">Contribution details</h2><p class="card-intro">Add a fictional pledge and see it reflected in campaign progress.</p>
+      <form action="{{ url_for('submit_donation') }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+        <div class="form-row"><div class="form-group"><label for="donor_name">Full name</label><input id="donor_name" name="donor_name" type="text" maxlength="100" required placeholder="Alex Morgan"></div><div class="form-group"><label for="donor_email">Email address</label><input id="donor_email" name="donor_email" type="email" maxlength="150" required placeholder="alex@example.test"></div></div>
+        <div class="form-row"><div class="form-group"><label for="donation_amount">Pledge amount (USD)</label><input id="donation_amount" name="donation_amount" type="number" min="1" max="1000000" step="0.01" required placeholder="250.00"></div><div class="form-group"><label for="donation_cause">Campaign</label><select id="donation_cause" name="donation_cause" required>{% for campaign in campaigns %}<option value="{{ campaign }}">{{ campaign }}</option>{% endfor %}</select></div></div>
+        <div class="form-group"><label for="donor_message">Note <span class="optional">(optional)</span></label><textarea id="donor_message" name="donor_message" rows="3" maxlength="500" placeholder="Add a message about this contribution"></textarea></div>
+        <div class="disclaimer" role="note"><span aria-hidden="true">ⓘ</span><div><strong>Simulation only — no payment is processed.</strong><p>This form stores a fictional pledge and generates a sample record, not a payment receipt. Please don't enter real personal or payment information.</p></div></div>
+        <button type="submit" class="button button-primary button-full" {% if read_only or not campaigns %}disabled{% endif %}>Save sample pledge <span aria-hidden="true">→</span></button>
+        {% if read_only %}<p class="helper-copy">The hosted preview is read-only. Run locally to try submissions.</p>{% endif %}
+      </form>
+    </section>
+    <aside class="aside-panel"><div class="aside-icon">✳</div><h3>Every contribution,<br>clearly tracked.</h3><p>Keep campaign targets, recorded pledges and progress together, without spreadsheets and scattered notes.</p><div class="aside-line"></div><div class="aside-points"><div><span>01</span> Select a campaign</div><div><span>02</span> Record a pledge</div><div><span>03</span> Review its sample record</div></div></aside>
+  </div>
+</main>
+{% endblock %}
