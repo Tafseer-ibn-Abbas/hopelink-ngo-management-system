@@ -15,6 +15,29 @@ HopeLink is an independent portfolio project for managing community campaigns, c
 - **SQLite persistence:** Local data survives application restarts.
 - **Mobile support:** Navigation menu, forms, grids and tables adjust to smaller screens.
 
+## Application Screenshots
+
+### Website Overview
+
+![HopeLink website overview](screenshots/01-home-overview.png)
+
+### Operations Dashboard
+
+![HopeLink admin dashboard](screenshots/02-admin-dashboard.png)
+
+### Core Workflows
+
+| Campaign Management | Inventory Tracking |
+| --- | --- |
+| ![HopeLink campaign management](screenshots/03-campaigns.png) | ![HopeLink inventory tracking](screenshots/04-inventory.png) |
+
+| Pledge Recording (Simulation) | Volunteer Registration |
+| --- | --- |
+| ![HopeLink simulated pledge recording](screenshots/05-pledge-form.png) | ![HopeLink volunteer registration](screenshots/06-volunteers.png) |
+
+> **Portfolio note:** Screenshots show the locally running application with fictional sample data. Pledge entries are simulations; no payments are processed.
+
+
 ## Tech stack
 
 | Layer | Tools |
